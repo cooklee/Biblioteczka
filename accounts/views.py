@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView
 
-from accounts.forms import LoginForm, UserCreationForm
+from accounts.forms import LoginForm, UserCreationForm, UserPermissionForm
 
 
 class LoginView(View):
@@ -43,3 +43,23 @@ class UserCreationView(CreateView):
         ret_val = super().form_valid(form)
         self.object.set_password(form.cleaned_data['pass_1'])
         return ret_val
+
+class UserPermissionView(View):
+    def get(self, request, id):
+        user = User.objects.get(pk=id)
+        form= UserPermissionForm(instance=user)
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request, id):
+        user = User.objects.get(pk=id)
+        form = UserPermissionForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+        return render(request, 'form.html', {'form': form})
+
+
+
+
+
+
+

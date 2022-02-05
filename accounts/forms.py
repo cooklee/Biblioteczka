@@ -30,3 +30,16 @@ class UserCreationForm(forms.ModelForm):
         if data.get('pass_1') != data.get('pass_2'):
             raise ValidationError("Hasła sie są identyczne")
         return data
+
+
+class UserPermissionForm(forms.ModelForm):
+    class Meta:
+
+        model = User
+        fields = ['user_permissions']
+        widgets = {
+            'user_permissions': forms.CheckboxSelectMultiple
+        }
+
+
+

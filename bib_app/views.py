@@ -1,13 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DetailView
-
+from django.contrib.auth.models import User
 from bib_app.forms import AddPublisherForm, AddBookForm, CategoryForm, BookModelForm
 from bib_app.models import Author, Book, Publisher
-
-
 
 
 class Index(View):
@@ -21,7 +20,7 @@ class AuthorView(View):
         return render(request, 'authors.html', {'authors': a})
 
 
-class AddAuthor(View):
+class AddAuthor(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'add_author.html', )
 
@@ -32,7 +31,9 @@ class AddAuthor(View):
         return redirect('authors')
 
 
-class AddBook(View):
+class AddBook(PermissionRequiredMixin, View):
+
+    permission_required = ['bib_app.add_book']
     def get(self, request):
         form = BookModelForm()
         return render(request, 'form.html', {'form': form})
