@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import CreateView
 
 from accounts.forms import LoginForm, UserCreationForm
 
@@ -23,27 +26,20 @@ class LoginView(View):
                 login(request, user)
         return redirect('index')
 
+
 class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('index')
 
 
-class UserCreationView(View):
+class UserCreationView(CreateView):
+    model = User
+    template_name = 'form.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('register')
 
-    def get(self, request):
-        form = UserCreationForm()
-        return render(request, 'form.html', {'form':form})
-
-    def post(self, request):
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.set_password(form.cleaned_data['pass_1'])
-            user.save()
-            return redirect('login')
-        return render(request, 'form.html', {'form': form})
-
-
-
-
+    def form_valid(self, form):
+        ret_val = super().form_valid(form)
+        self.object.set_password(form.cleaned_data['pass_1'])
+        return ret_val
