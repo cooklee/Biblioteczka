@@ -56,10 +56,3 @@ class UserPermissionView(View):
         if form.is_valid():
             form.save()
         return render(request, 'form.html', {'form': form})
-
-
-
-
-
-
-
