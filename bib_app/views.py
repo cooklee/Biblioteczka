@@ -20,7 +20,7 @@ class AuthorView(View):
         return render(request, 'authors.html', {'authors': a})
 
 
-class AddAuthor(LoginRequiredMixin, View):
+class AddAuthor(View):
     def get(self, request):
         return render(request, 'add_author.html', )
 

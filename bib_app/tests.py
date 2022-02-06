@@ -22,3 +22,18 @@ def test_authors(client, authors):
     assert context['authors'].count() == len(authors)
     for item in authors:
         assert item in context['authors']
+
+
+@pytest.mark.django_db
+def test_add_author(client):
+    dct = {
+        'first_name':'slawek',
+        'last_name':'Bo'
+    }
+    url = reverse('add_authors')
+    response = client.post(url, dct)
+    assert Author.objects.get(**dct) #-> Author.objects.get(first_name='slawek',last_name='Bo')
+
+
+
+
