@@ -17,9 +17,7 @@
     <a href="{% url 'authors' %}">Authors</a>
     <a href="{% url 'add_authors' %}">dodaj Autora</a>
     <a href="{% url 'books' %}">Książki</a>
-    {% if perms.bib_app.add_book %}
     <a href="{% url 'add_book' %}">dodaj książke</a>
-    {% endif %}
     <a href="{% url 'add_book_form_view' %}">dodaj książke (formularz)</a>
     <a href="{% url 'add_publisher' %}">dodaj wydawce</a>
     <a href="{% url 'add_category' %}">dodaj kategorie</a>

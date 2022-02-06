@@ -39,10 +39,9 @@ class AddBookForm(forms.Form):
 
 
 class CategoryForm(forms.ModelForm):
-
     class Meta:
         model = Category
-        fields = ['name'] # exclude=['name'] | fields = '__all__'
+        fields = ['name']  # exclude=['name'] | fields = '__all__'
 
 
 class BookModelForm(forms.ModelForm):
@@ -50,7 +49,3 @@ class BookModelForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
-        widgets = {
-            'category':forms.CheckboxSelectMultiple(attrs={'class':'jakies_styl', 'super_moc':'django'})
-        }
-

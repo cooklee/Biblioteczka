@@ -31,9 +31,8 @@ class AddAuthor(View):
         return redirect('authors')
 
 
-class AddBook(PermissionRequiredMixin, View):
+class AddBook(View):
 
-    permission_required = ['bib_app.add_book']
     def get(self, request):
         form = BookModelForm()
         return render(request, 'form.html', {'form': form})
@@ -45,13 +44,16 @@ class AddBook(PermissionRequiredMixin, View):
             return redirect('books')
         return render(request, 'form.html', {'form': form})
 
+
+
+
 class BooksView(View):
     def get(self, request):
         books= Book.objects.all()
         return render(request, 'books.html',  {'books':books})
 
 
-class AddPublisherView(View):
+class AddPublisherView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = AddPublisherForm()
